@@ -44,9 +44,12 @@ class ScriptureSemanticEngine:
             self.components = arrays["components"].copy()
             vectors = arrays["vectors"].copy()
         self.dimensions = int(model["dimensions"])
-        if self.components.shape != (self.dimensions, len(self.idf)) or self.vectors.shape != (len(self.references), self.dimensions):
-            raise SemanticEngineUnavailable("Semantic model dimensions are invalid.")
         self.references = model["records"]
+        if (
+            self.components.shape != (self.dimensions, len(self.idf))
+            or vectors.shape != (len(self.references), self.dimensions)
+        ):
+            raise SemanticEngineUnavailable("Semantic model dimensions are invalid.")
         self.by_reference = {
             (r["bookId"], int(r["chapter"]), int(r["verse"])): i
             for i, r in enumerate(self.references)
